@@ -1,0 +1,30 @@
+<header>
+<-- user_path(@conn, :create) -->
+    <%= form_for @changeset, "/todos", fn f -> %>
+      <label>
+        Description: <%= text_input f, :description, required: true %>
+      </label>
+    <% end %>
+</header>
+
+<section>
+<ul>
+<%= for todo <- @todos do %>
+  <li class="list-group-item"><%= todo.description %></li>
+<% end %>
+</ul>
+</section>
+
+
+<footer>
+<span>
+<% todos_length =length(@todos) %>
+<%= todos_length %> item<%= if todos_length > 1 do %>s<% end %> left
+</span>
+<span><%= @status %></span>
+<nav>
+    <%= link("all", to: "/todos/all") %>
+    <%= link("active", to: "/todos/active") %>
+    <%= link("completed", to: "/todos/completed") %>
+</nav>
+</footer>
