@@ -1,6 +1,5 @@
 <header>
-<-- user_path(@conn, :create) -->
-    <%= form_for @changeset, "/todos", fn f -> %>
+    <%= form_for @changeset, todos_path(@conn, :create), fn f -> %>
       <label>
         Description: <%= text_input f, :description, required: true %>
       </label>
@@ -10,7 +9,13 @@
 <section>
 <ul>
 <%= for todo <- @todos do %>
-  <li class="list-group-item"><%= todo.description %></li>
+  <li class="list-group-item">
+
+    <% toggle_status = if todo.completed do "Completed" else "Not completed" end %>
+    <%= link(toggle_status, to: todos_path(@conn, :toggle, todo), method: :put) %>
+    <%= todo.description %>
+    <%= link("delete", to: todos_path(@conn, :delete, todo), method: :delete, class: "pull-right") %>
+  </li>
 <% end %>
 </ul>
 </section>
@@ -18,7 +23,7 @@
 
 <footer>
 <span>
-<% todos_length =length(@todos) %>
+<% todos_length = length(@todos) %>
 <%= todos_length %> item<%= if todos_length > 1 do %>s<% end %> left
 </span>
 <span><%= @status %></span>

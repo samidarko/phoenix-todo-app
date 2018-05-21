@@ -17,12 +17,26 @@ defmodule TodoappWeb.TodosController do
   end
 
   def create(conn, params) do
-    IO.inspect params
     changeset = Todo.changeset(%Todo{}, params["todo"])
     if changeset.valid? do
       changeset |> Repo.insert
     end
     # TODO better error handling. see case https://hexdocs.pm/ecto/Ecto.Repo.html#content
+    conn |> redirect(to: "/todos/all") |> halt()
+  end
+
+  def toggle(conn, params) do
+    IO.inspect(conn.req_headers)
+    IO.inspect(params) # %{"id" => "2"}
+#    changeset = Todo.changeset(%Todo{}, params["todo"])
+#    if changeset.valid? do
+#      changeset |> Repo.insert
+#    end
+    # TODO better error handling. see case https://hexdocs.pm/ecto/Ecto.Repo.html#content
+    conn |> redirect(to: "/todos/all") |> halt()
+  end
+
+  def delete(conn, params) do
     conn |> redirect(to: "/todos/all") |> halt()
   end
 end
