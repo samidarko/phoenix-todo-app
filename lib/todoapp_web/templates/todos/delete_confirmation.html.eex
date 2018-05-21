@@ -1,0 +1,9 @@
+<div class="jumbotron">
+  <h2>Are you sure you want to delete todo?</h2>
+  <p class="lead"><%= @todo.description %></p>
+
+  <%= form_for @changeset, todos_path(@conn, :delete, @todo), fn f -> %>
+    <%= link("Cancel", to: todos_path(@conn, :status, "all")) %>
+    <%= submit "Delete" %>
+  <% end %>
+</div>

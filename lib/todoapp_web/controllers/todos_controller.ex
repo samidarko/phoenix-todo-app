@@ -26,17 +26,29 @@ defmodule TodoappWeb.TodosController do
   end
 
   def toggle(conn, params) do
-    IO.inspect(conn.req_headers)
-    IO.inspect(params) # %{"id" => "2"}
-#    changeset = Todo.changeset(%Todo{}, params["todo"])
-#    if changeset.valid? do
-#      changeset |> Repo.insert
-#    end
-    # TODO better error handling. see case https://hexdocs.pm/ecto/Ecto.Repo.html#content
-    conn |> redirect(to: "/todos/all") |> halt()
+    todo = Repo.get!(Todo, params["id"])
+    todo = Ecto.Changeset.change todo, completed: !todo.completed
+    case Repo.update todo do
+      {:ok, struct}       -> conn |> redirect(to: "/todos/all") |> halt()
+      {:error, changeset} -> conn |> redirect(to: "/todos/all") |> halt() # TODO how to handle error?
+    end
   end
 
   def delete(conn, params) do
-    conn |> redirect(to: "/todos/all") |> halt()
+    # TODO handle correct redirection
+    todo = Repo.get(Todo, params["id"])
+    case Repo.delete todo do
+      {:ok, struct}       -> conn |> redirect(to: "/todos/all") |> halt()
+      {:error, changeset} -> conn |> redirect(to: "/todos/all") |> halt() # TODO how to handle error?
+    end
+
+  end
+
+  def delete_confirmation(conn, params) do
+    todo = Repo.get!(Todo, params["id"])
+    changeset = Todo.changeset(%Todo{})
+    IO.inspect todo
+    # TODO raises Ecto.NoResultsError => return 404
+    render conn, "delete_confirmation.html", todo: todo, changeset: changeset
   end
 end

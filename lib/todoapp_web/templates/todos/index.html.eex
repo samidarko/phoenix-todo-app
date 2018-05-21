@@ -10,11 +10,10 @@
 <ul>
 <%= for todo <- @todos do %>
   <li class="list-group-item">
-
     <% toggle_status = if todo.completed do "Completed" else "Not completed" end %>
-    <%= link(toggle_status, to: todos_path(@conn, :toggle, todo), method: :put) %>
+    <%= link(toggle_status, to: todos_path(@conn, :toggle, todo)) %>
     <%= todo.description %>
-    <%= link("delete", to: todos_path(@conn, :delete, todo), method: :delete, class: "pull-right") %>
+    <%= link("delete", to: todos_path(@conn, :delete_confirmation, todo), class: "pull-right") %>
   </li>
 <% end %>
 </ul>
