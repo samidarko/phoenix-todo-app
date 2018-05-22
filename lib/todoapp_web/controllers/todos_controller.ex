@@ -41,7 +41,6 @@ defmodule TodoappWeb.TodosController do
       {:ok, struct}       -> conn |> redirect(to: "/todos/all") |> halt()
       {:error, changeset} -> conn |> redirect(to: "/todos/all") |> halt() # TODO how to handle error?
     end
-
   end
 
   def delete_confirmation(conn, params) do

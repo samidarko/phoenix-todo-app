@@ -23,6 +23,8 @@ defmodule TodoappWeb.Router do
     get "/todos/delete/:id", TodosController, :delete_confirmation
     post "/todos/delete/:id", TodosController, :delete
     get "/api/todos", ApiController, :index
+    get "/api/todos/:id", ApiController, :show
+    delete "/api/todos/:id", ApiController, :delete
   end
 
   # Other scopes may use custom stacks.
